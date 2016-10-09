@@ -12,7 +12,7 @@ module Jazzy
     end
 
     def url
-      name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '') + '.html'
+      name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '') + '.md'
     end
 
     def content(source_module)
