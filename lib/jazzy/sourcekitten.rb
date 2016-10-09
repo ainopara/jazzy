@@ -72,7 +72,7 @@ module Jazzy
           # Create HTML page for this doc if it has children or is root-level
           doc.url = (
             subdir_for_doc(doc) +
-            [doc.name + '.md']
+            [doc.name + '.html']
           ).join('/')
           doc.children = make_doc_urls(doc.children)
         else

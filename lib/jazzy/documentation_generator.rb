@@ -12,7 +12,7 @@ module Jazzy
         SourceDocument.new.tap do |sd|
           sd.name = File.basename(file_path, '.md')
           sd.url = sd.name.downcase.strip
-                     .tr(' ', '-').gsub(/[^\w-]/, '') + '.md'
+                     .tr(' ', '-').gsub(/[^\w-]/, '') + '.html'
           sd.type = SourceDeclaration::Type.new 'document.markdown'
           sd.children = []
           sd.overview = overview Pathname(file_path)
