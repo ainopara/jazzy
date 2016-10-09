@@ -13,7 +13,7 @@ module Jazzy
         readme = generated_readme(source_module)
       end
 
-      Jazzy.markdown.render(readme)
+      readme
     end
 
     def self.readme_path

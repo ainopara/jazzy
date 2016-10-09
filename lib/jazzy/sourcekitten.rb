@@ -72,7 +72,7 @@ module Jazzy
           # Create HTML page for this doc if it has children or is root-level
           doc.url = (
             subdir_for_doc(doc) +
-            [doc.name + '.html']
+            [doc.name + '.md']
           ).join('/')
           doc.children = make_doc_urls(doc.children)
         else
@@ -230,15 +230,15 @@ module Jazzy
       return nil unless doc[key]
       doc[key].map do |p|
         if para = p['Para']
-          Jazzy.markdown.render(para)
+          para
         elsif code = p['Verbatim'] || p['CodeListing']
-          Jazzy.markdown.render("```\n#{code}```\n")
+          "```\n#{code}```\n"
         else
           warn "Jazzy could not recognize the `#{p.keys.first}` tag. " \
                'Please report this by filing an issue at ' \
                'https://github.com/realm/jazzy/issues along with the comment ' \
                'including this tag.'
-          Jazzy.markdown.render(p.values.first)
+          p.values.first
         end
       end.join
     end
@@ -271,7 +271,7 @@ module Jazzy
         )
       end
 
-      declaration.abstract = Jazzy.markdown.render(doc['key.doc.comment'] || '')
+      declaration.abstract = doc['key.doc.comment'] || ''
       declaration.discussion = ''
       declaration.return = make_paragraphs(doc, 'key.doc.result_discussion')
 
@@ -524,8 +524,8 @@ module Jazzy
            link_target.url != doc.url.split('#').first && # Don't link to parent
            link_target.url != doc.url # Don't link to self
           start_tag +
-            "<a href=\"#{ELIDED_AUTOLINK_TOKEN}#{link_target.url}\">" +
-            raw_name + '</a>' + end_tag
+             "[" + raw_name + "]" + "(#{ELIDED_AUTOLINK_TOKEN}#{link_target.url})" +
+             + end_tag
         else
           original
         end
