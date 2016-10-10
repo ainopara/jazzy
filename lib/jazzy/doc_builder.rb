@@ -252,10 +252,14 @@ module Jazzy
     def self.render_item(item, source_module)
       # Combine abstract and discussion into abstract
       abstract = (item.abstract || '') + (item.discussion || '')
+      # Remove redundancy contents. This is a workaround for bug in SourceKitten.
+      abstract = abstract.gsub(/\n\n- (parameter|returns).*/m, "")
+      # discussion in parameters should not contain newline mark. This is a workaround for bug in SourceKitten.
+      processed_parameters = (item.parameters.each {|parameter| parameter[:discussion].gsub!(/ *\n/, "")} if item.parameters.any?) || []
       item_render = {
         name:                       item.name,
         abstract:                   abstract,
-        declaration:                item.declaration,
+        declaration:                (item.declaration.gsub(/\n */, "") if !item.declaration.nil?),
         other_language_declaration: item.other_language_declaration,
         usr:                        item.usr,
         dash_type:                  item.type.dash_type,
@@ -263,7 +267,7 @@ module Jazzy
         default_impl_abstract:      item.default_impl_abstract,
         from_protocol_extension:    item.from_protocol_extension,
         return:                     item.return,
-        parameters:                 (item.parameters if item.parameters.any?),
+        parameters:                 (processed_parameters if processed_parameters.any?),
         url:                        (item.url if item.children.any?),
         start_line:                 item.start_line,
         end_line:                   item.end_line,
