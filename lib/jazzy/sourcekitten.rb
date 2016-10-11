@@ -499,7 +499,7 @@ module Jazzy
         if after_highlight
           [/<span class="(?:n|kt)">/, '</span>']
         else
-          ['<code>', '</code>']
+          ['`', '`']
         end
 
       text.gsub(/(#{start_tag_re})[ \t]*([^\s]+)[ \t]*(#{end_tag_re})/) do
@@ -523,9 +523,8 @@ module Jazzy
            link_target.url &&
            link_target.url != doc.url.split('#').first && # Don't link to parent
            link_target.url != doc.url # Don't link to self
-          start_tag +
-             "[" + raw_name + "]" + "(#{ELIDED_AUTOLINK_TOKEN}#{link_target.url})" +
-             + end_tag
+
+           "[" + raw_name + "]" + "(#{ELIDED_AUTOLINK_TOKEN}#{link_target.url.gsub(/\.md/, ".html")})"
         else
           original
         end
@@ -541,6 +540,8 @@ module Jazzy
 
         doc.return = autolink_text(doc.return, doc, root_decls) if doc.return
         doc.abstract = autolink_text(doc.abstract, doc, root_decls)
+
+        doc.parameters = (doc.parameters.map {|parameter| parameter[:discussion] = autolink_text(parameter[:discussion], doc, root_decls); parameter} if (doc.parameters || []).any?) || []
 
         doc.declaration = autolink_text(
           doc.declaration, doc, root_decls, true
