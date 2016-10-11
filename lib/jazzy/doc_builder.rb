@@ -125,7 +125,9 @@ module Jazzy
 
       copy_assets(output_dir)
 
-      DocsetBuilder.new(output_dir, source_module).build!
+      unless options.skip_docset
+        DocsetBuilder.new(output_dir, source_module).build!
+      end
 
       friendly_path = relative_path_if_inside(output_dir, Pathname.pwd)
       puts "jam out ♪♫ to your fresh new docs in `#{friendly_path}`"

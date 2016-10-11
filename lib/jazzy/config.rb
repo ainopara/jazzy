@@ -221,6 +221,7 @@ module Jazzy
       command_line: '--docset-path DIRPATH',
       description: 'The relative path for the generated docset'
 
+
     # ──────── URLs ────────
 
     config_attr :root_url,
@@ -250,6 +251,11 @@ module Jazzy
     config_attr :skip_documentation,
       command_line: '--skip-documentation',
       description: 'Will skip the documentation generation phase.',
+      default: false
+
+    config_attr :skip_docset,
+      command_line: '--skip-docset',
+      description: 'Will skip the docset generation phase.',
       default: false
 
     config_attr :min_acl,
