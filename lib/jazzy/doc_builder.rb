@@ -147,7 +147,10 @@ module Jazzy
         DocumentationGenerator.source_docs)
 
       prepare_output_dir(options.output, options.clean)
-      write_lint_report(undocumented, options)
+
+      unless options.skip_lint_report
+        write_lint_report(undocumented, options)
+      end
 
       unless options.skip_documentation
         build_site(docs, coverage, options)

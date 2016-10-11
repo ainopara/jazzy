@@ -258,6 +258,11 @@ module Jazzy
       description: 'Will skip the docset generation phase.',
       default: false
 
+    config_attr :skip_lint_report,
+      command_line: '--skip-lint-report',
+      description: 'Will skip the lint report generation phase.',
+      default: false
+
     config_attr :min_acl,
       command_line: '--min-acl [private | internal | public]',
       description: 'minimum access control level to document',
