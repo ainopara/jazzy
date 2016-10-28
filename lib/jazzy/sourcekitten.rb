@@ -68,7 +68,7 @@ module Jazzy
     # @return [Hash] input docs with URLs
     def self.make_doc_urls(docs)
       docs.each do |doc|
-        if !doc.parent_in_docs || doc.children.count > 0
+        if !doc.parent_in_docs || doc.children.count > 0 || (doc.type && doc.type.objc_class?)
           # Create HTML page for this doc if it has children or is root-level
           doc.url = (
             subdir_for_doc(doc) +
