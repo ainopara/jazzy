@@ -258,6 +258,11 @@ module Jazzy
       description: 'Will skip the docset generation phase.',
       default: false
 
+    config_attr :skip_index,
+                command_line: '--skip-index',
+                description: 'Will skip the index generation phase.',
+                default: false
+
     config_attr :skip_lint_report,
       command_line: '--skip-lint-report',
       description: 'Will skip the lint report generation phase.',

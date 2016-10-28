@@ -13,7 +13,7 @@ module Jazzy
     end
 
     def render?
-      type?('document.markdown') || children.count != 0
+      !type?('Overview') && (type?('document.markdown') || type.objc_class? || type.objc_protocol?)
     end
 
     # Element containing this declaration in the code

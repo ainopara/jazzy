@@ -93,16 +93,16 @@ module Jazzy
 
     def self.each_doc(output_dir, docs, &block)
       docs.each do |doc|
-        next unless doc.render?
         # Assuming URL is relative to documentation root:
         path = output_dir + (doc.url || "#{doc.name}.md")
-        block.call(doc, path)
         next if doc.name == 'index'
         each_doc(
           output_dir,
           doc.children,
           &block
         )
+        next unless doc.render?
+        block.call(doc, path)
       end
     end
 
@@ -111,11 +111,13 @@ module Jazzy
 
       structure = doc_structure_for_docs(docs)
 
-      docs << SourceDocument.new.tap do |sd|
-        sd.name = 'index'
-        sd.children = []
-        sd.type = SourceDeclaration::Type.new 'document.markdown'
-        sd.readme_path = options.readme_path
+      unless options.skip_index
+        docs << SourceDocument.new.tap do |sd|
+          sd.name = 'index'
+          sd.children = []
+          sd.type = SourceDeclaration::Type.new 'document.markdown'
+          sd.readme_path = options.readme_path
+        end
       end
 
       source_module = SourceModule.new(options, docs, structure, coverage)

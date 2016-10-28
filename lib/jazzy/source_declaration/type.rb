@@ -48,6 +48,10 @@ module Jazzy
         kind == 'sourcekitten.source.lang.objc.decl.class'
       end
 
+      def objc_protocol?
+        kind == 'sourcekitten.source.lang.objc.decl.protocol'
+      end
+
       def swift_enum_case?
         kind == 'source.lang.swift.decl.enumcase'
       end
